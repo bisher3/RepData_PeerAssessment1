@@ -77,7 +77,10 @@ img {
 <div id="assignment-1" class="section level2">
 <h2>Assignment 1</h2>
 <p>Compute the total number of steps taken each day and plot a histogram of the total number of steps per day. Also compute the mean and median for this variable.</p>
-<pre class="r"><code>data&lt;-read.csv(&quot;activity.csv&quot;)
+<pre class="r"><code>require(knitr)</code></pre>
+<pre><code>## Loading required package: knitr</code></pre>
+<pre class="r"><code>opts_chunk$set(echo = TRUE, cache = FALSE, cache.path = &quot;cache/&quot;, fig.path = &quot;figure/&quot;)
+data&lt;-read.csv(&quot;activity.csv&quot;)
 #aggregate the data by date using the sum function to
 #calculate total number of steps taken each day
 agg1&lt;-aggregate(data$steps,list(Date=data$date),sum,na.rm=T)
@@ -92,14 +95,14 @@ print(mx1)</code></pre>
 <pre class="r"><code>#using ggplot draw a histogram of total number of steps taken each day
 #red line is mean blue line is median
 qplot(agg1$x,xlab=&quot;Number of steps taken per day&quot;,ylab=&quot;number of days&quot;)+geom_vline(xintercept = mx1,color=&quot;red&quot;,linetype=&quot;dashed&quot;)+geom_vline(xintercept = mx2,color=&quot;blue&quot;,linetype=&quot;dashed&quot;)</code></pre>
-<p><img src="PA1_template_files/figure-html/unnamed-chunk-1-1.png" title="" alt="" width="672" /></p>
+<p><img src="PA1_template_files/figure-html/setoptions-1.png" /></p>
 </div>
 <div id="assignment-2" class="section level2">
 <h2>Assignment 2</h2>
 <p>Make a time series plot of the 5-minute interval (x-axis) and the average number of steps taken, averaged across all days (y-axis).</p>
 <pre class="r"><code>agg2&lt;-aggregate(data$steps,by=list(time=data$interval),FUN=mean,na.rm=T)
 ggplot(data=agg2,aes(x=time,y=x))+geom_line()</code></pre>
-<p><img src="PA1_template_files/figure-html/unnamed-chunk-2-1.png" title="" alt="" width="672" /></p>
+<p><img src="figure/unnamed-chunk-1-1.png" /></p>
 <p>Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?</p>
 <pre class="r"><code>agg2[which(agg2$x==max(agg2$x)),c(&quot;time&quot;)]</code></pre>
 <pre><code>## [1] 835</code></pre>
@@ -128,7 +131,7 @@ print(mx3)</code></pre>
 <pre class="r"><code>#using ggplot draw a histogram of total number of steps taken each day
 #red line is mean blue line is median
 qplot(agg3$x,xlab=&quot;Number of steps taken per day&quot;,ylab=&quot;number of days&quot;)+geom_vline(xintercept = mx3,color=&quot;red&quot;,linetype=&quot;dashed&quot;)+geom_vline(xintercept = mx4,color=&quot;blue&quot;,linetype=&quot;dashed&quot;)</code></pre>
-<p><img src="PA1_template_files/figure-html/unnamed-chunk-7-1.png" title="" alt="" width="672" /></p>
+<p><img src="figure/unnamed-chunk-6-1.png" /></p>
 <p>So it seems yes imputing the NA values did change the estimates for the total number of steps taken each day. Both the mean and median are larger and are equal (due to the fact we subsituted the NA with the mean value for each interval)</p>
 </div>
 <div id="asignment-4" class="section level2">
@@ -139,7 +142,7 @@ newData[which(newData$weekday==&quot;Sunday&quot; | newData$weekday==&quot;Satur
 newData[which(newData$weekday!=&quot;weekend&quot;),4]&lt;-&quot;weekday&quot;
 agg4&lt;-aggregate(newData$steps,by=list(time=newData$interval,day=newData$weekday),FUN=mean,na.rm=T)
 ggplot(data=agg4,aes(x=time,y=x))+geom_line()+facet_grid(day~.)</code></pre>
-<p><img src="PA1_template_files/figure-html/unnamed-chunk-8-1.png" title="" alt="" width="672" /></p>
+<p><img src="figure/unnamed-chunk-7-1.png" /></p>
 <p>Yes it seems there is a different in activity on weekends (slower mornings obviously)</p>
 </div>
 
